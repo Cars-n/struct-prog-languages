@@ -2,6 +2,7 @@
 expression = term { ("+" | "-") term }
 term = factor { ("*" | "/") factor }
 factor = number | "(" expression ")"
+unary = "-" factor
 number = <number>
 """
 
@@ -38,6 +39,11 @@ def parse_factor(tokens):
         if tokens and tokens[0]["tag"] != ")":
             raise Exception("Expected ')'")
         return node, tokens[1:]
+    
+    if tag == "-":  # unary negation
+        node, tokens = parse_factor(tokens[1:])
+        return create_node("negate", right=node), tokens
+    
     else:
         raise Exception(f"Unexpected token: {tokens[0]}")
 

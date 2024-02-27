@@ -1,5 +1,5 @@
 from tokenizer import tokenize
-from parser import parse, format
+from ast_parser import parse, format
 from evaluator import evaluate
 import sys
 

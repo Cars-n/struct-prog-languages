@@ -68,7 +68,7 @@ def tokenize(characters):
         # get the value of the token
         if tag == "error":
             # complain about errors and throw exception
-            raise Exception(f"Syntax error: illegal character : {[value]}")
+            raise Exception(f"Syntax error: illegal character : {['value']}")
         else:
             # package the token
             tokens.append({"tag": tag, "value": match.group(0), "position": position})

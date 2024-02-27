@@ -8,6 +8,10 @@ def evaluate(ast):
         return ast["value"]
 
     # Recursive cases: evaluate the left and right sub-trees and apply the operation
+    if ast["tag"] == "negate":
+        operand = evaluate(ast["right"])
+        return -operand
+    
     left_value = evaluate(ast["left"])
     right_value = evaluate(ast["right"])
 
@@ -27,7 +31,7 @@ def evaluate(ast):
 
 
 from tokenizer import tokenize
-from parser import parse
+from ast_parser import parse
 
 
 def equals(code, expected_result):
@@ -87,6 +91,12 @@ def test_evaluate_division_by_zero():
     except Exception as e:
         assert str(e) == "Division by zero"
 
+def test_evaluate_negation():
+    print("testing negation")
+    equals("5 + -5", 0)
+    equals("4 - -2", 6)
+    equals("10 * -1", -10)
+    equals("--1", 1)
 
 if __name__ == "__main__":
     print("testing evaluator.")
@@ -95,4 +105,5 @@ if __name__ == "__main__":
     test_evaluate_subtraction()
     test_evaluate_division()
     test_evaluate_division_by_zero()
+    test_evaluate_negation()
     print("done.")
